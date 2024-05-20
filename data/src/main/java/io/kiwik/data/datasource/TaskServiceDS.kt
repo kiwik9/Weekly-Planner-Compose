@@ -7,6 +7,7 @@ interface TaskServiceDS {
     fun getAllDaily(): Flow<List<TaskEntity>>
 
     fun getAllWeekly(): Flow<List<TaskEntity>>
+
     suspend fun update(task: TaskEntity)
 
     suspend fun insertAll(vararg tasks: TaskEntity)
