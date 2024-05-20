@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import io.kiwik.data.room.converters.DateConverter
 import io.kiwik.data.room.dao.TaskDao
-import io.kiwik.data.room.models.TaskModel
+import io.kiwik.data.room.entity.TaskEntity
 
-@Database(entities = [TaskModel::class], version = 1, exportSchema = false)
+@Database(entities = [TaskEntity::class], version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
@@ -25,7 +25,6 @@ abstract class AppDatabase : RoomDatabase() {
                 AppDatabase::class.java,
                 databaseName
             )
-                //.addTypeConverter(DateConverter())
             .build()
             return instance!!
         }

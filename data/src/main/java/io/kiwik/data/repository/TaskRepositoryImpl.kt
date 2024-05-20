@@ -1,30 +1,33 @@
 package io.kiwik.data.repository
 
-import io.kiwik.data.room.dao.TaskDao
-import io.kiwik.data.room.models.TaskModel
+import io.kiwik.data.datasource.TaskServiceDS
+import io.kiwik.data.mapper.toEntity
+import io.kiwik.domain.model.Task
+import io.kiwik.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TaskRepositoryImpl @Inject constructor(
-    private val taskDao: TaskDao
+    val taskServiceDS: TaskServiceDS
 ) : TaskRepository {
-    override fun getAllDaily(): Flow<List<TaskModel>> {
-        return taskDao.getAllDaily()
+    override fun getAllDaily(): Flow<List<Task>> {
+        return taskServiceDS.getAllDaily().map { it.map { it.toDomain() } }
     }
 
-    override fun getAllWeekly(): Flow<List<TaskModel>> {
-        return taskDao.getAllWeekly()
+    override fun getAllWeekly(): Flow<List<Task>> {
+        return taskServiceDS.getAllWeekly().map { it.map { it.toDomain() } }
     }
 
-    override suspend fun update(task: TaskModel) {
-        taskDao.update(task)
+    override suspend fun update(task: Task) {
+        taskServiceDS.update(task.toEntity())
     }
 
-    override suspend fun insertAll(vararg tasks: TaskModel) {
-        taskDao.insertAll(*tasks)
+    override suspend fun insert(vararg tasks: Task) {
+        taskServiceDS.insertAll(*tasks.map { it.toEntity() }.toTypedArray())
     }
 
-    override suspend fun delete(task: TaskModel) {
-        taskDao.delete(task)
+    override suspend fun delete(task: Task) {
+        taskServiceDS.delete(task.toEntity())
     }
 }

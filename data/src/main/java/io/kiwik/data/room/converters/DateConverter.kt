@@ -3,7 +3,6 @@ package io.kiwik.data.room.converters
 import androidx.room.TypeConverter
 import java.util.Date
 
-//@ProvidedTypeConverter
 class DateConverter {
     @TypeConverter
     fun fromTimestamp(value: Long?): Date? {
