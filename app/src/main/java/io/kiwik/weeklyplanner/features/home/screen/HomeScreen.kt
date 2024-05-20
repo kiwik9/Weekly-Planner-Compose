@@ -1,11 +1,17 @@
 package io.kiwik.weeklyplanner.features.home.screen
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.kiwik.ui.components.TabList
 import io.kiwik.weeklyplanner.features.home.viewmodel.HomeViewModel
 import io.kiwik.weeklyplanner.features.home.navigation.HomeRoute
 import io.kiwik.weeklyplanner.features.home.navigation.localHomeNavController
@@ -27,12 +33,32 @@ fun HomeScreenContent(
     state: HomeScreenState,
     onEvents: (HomeScreenEvents) -> Unit
 ) {
+    var selectedTab by remember { mutableStateOf(0) }
     Column {
-        Text(text = "HomeScreenContent")
-        TextField(value = state.myText, onValueChange = {
-            onEvents(HomeScreenEvents.SendMyNewText(it))
-        })
+        Text(text = "Planner")
+        TabList(
+            listOfTabs = listOf("Daily", "Weekly"),
+            selectedTab = selectedTab,
+            onSelectedTab = { selectedTab = it }
+        )
+
+        Crossfade(targetState = selectedTab ) {
+            when (it) {
+                0 -> ListTaskDailyScreen()
+                1 -> ListTaskWeeklyScreen()
+            }
+        }
     }
+}
+
+@Composable
+fun ListTaskDailyScreen() {
+    Text(text = "ListTaskDailyScreen")
+}
+
+@Composable
+fun ListTaskWeeklyScreen() {
+    Text(text = "ListTaskWeeklyScreen")
 }
 
 @Composable

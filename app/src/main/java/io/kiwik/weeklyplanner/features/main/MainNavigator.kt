@@ -20,7 +20,7 @@ fun MainNavigator() {
     CompositionLocalProvider(localNavController provides navController) {
         NavHost(
             navController = navController,
-            startDestination = MainRoute.OnBoardingScreen.route
+            startDestination = MainRoute.OnBoardingScreen.route,
         ) {
             composable(MainRoute.OnBoardingScreen.route) {
                 OnBoardingScreen()

@@ -109,5 +109,6 @@ private fun TaskItemPreview() {
         isFinishedTask = finished,
         onRepetitiveChange = { repetitive = it },
         onFinishedChange = { finished = it },
-    )
+
+        )
 }
