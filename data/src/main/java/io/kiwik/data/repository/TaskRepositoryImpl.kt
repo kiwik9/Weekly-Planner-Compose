@@ -1,6 +1,6 @@
 package io.kiwik.data.repository
 
-import io.kiwik.data.datasource.TaskServiceDS
+import io.kiwik.data.datasource.task.TaskServiceDS
 import io.kiwik.data.mapper.toEntity
 import io.kiwik.domain.model.Task
 import io.kiwik.domain.repository.TaskRepository

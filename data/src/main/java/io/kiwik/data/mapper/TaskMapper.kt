@@ -9,6 +9,7 @@ fun Task.toEntity(): TaskEntity {
         title = title,
         description = description,
         date = date,
-        isCompleted = isCompleted
+        isCompleted = isCompleted,
+        type = type
     )
 }

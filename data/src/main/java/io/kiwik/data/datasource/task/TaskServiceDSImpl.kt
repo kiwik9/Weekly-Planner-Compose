@@ -1,4 +1,4 @@
-package io.kiwik.data.datasource
+package io.kiwik.data.datasource.task
 
 import io.kiwik.data.room.dao.TaskDao
 import io.kiwik.data.room.entity.TaskEntity
