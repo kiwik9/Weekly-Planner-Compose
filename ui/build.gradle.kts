@@ -1,25 +1,17 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
-    namespace = "io.kiwik.weeklyplanner"
+    namespace = "io.kiwik.ui"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "io.kiwik.weeklyplanner"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -61,12 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
-    implementation(libs.androidx.navigation.compose)
-    implementation( libs.hilt.android)
-    implementation( libs.androidx.hilt.navigation.compose)
-    implementation(project(":ui"))
-    kapt (libs.hilt.compiler)
+    implementation("androidx.compose.material:material-icons-extended:1.6.5")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
