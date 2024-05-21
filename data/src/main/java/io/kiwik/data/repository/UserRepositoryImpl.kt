@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    val userServiceDS: UserServiceDS
+    private val userServiceDS: UserServiceDS
 ) : UserRepository {
     override suspend fun showOnBoarding(): Flow<Boolean> {
         return userServiceDS.showOnBoarding()
