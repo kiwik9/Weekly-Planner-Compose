@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.kiwik.ui.styles.TextAppStyles
 
 @Composable
 fun TaskItem(
@@ -54,7 +55,7 @@ fun TaskItem(
         colors = CardDefaults.cardColors(
             containerColor = Color.Black
         ),
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             modifier = Modifier.weight(1f),
@@ -75,8 +76,13 @@ fun TaskItem(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = title, color = Color.White)
-                Text(text = description, color = Color.White, overflow = TextOverflow.Ellipsis)
+                Text(text = title, color = Color.White, style = TextAppStyles.TitleTask.style)
+                Text(
+                    text = description,
+                    color = Color.White,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextAppStyles.TitleTask.style
+                )
             }
 
             IconButton(
