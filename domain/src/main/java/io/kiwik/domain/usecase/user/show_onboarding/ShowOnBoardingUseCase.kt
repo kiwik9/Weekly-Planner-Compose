@@ -2,13 +2,14 @@ package io.kiwik.domain.usecase.user.show_onboarding
 
 import io.kiwik.domain.repository.UserRepository
 import io.kiwik.domain.usecase.UseCase
-import io.kiwik.domain.usecase.user.show_onboarding.params.ShowOnBoardingParams
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class ShowOnBoardingUseCase @Inject constructor(val userRepository: UserRepository) :
-    UseCase.WithParams<ShowOnBoardingParams> {
-    override suspend fun execute(params: ShowOnBoardingParams) {
-        userRepository.saveOnBoarding(params.show)
+class ShowOnBoardingUseCase @Inject constructor(
+    val userRepository: UserRepository
+) : UseCase.WithResult<Flow<Boolean>> {
+    override suspend fun execute(): Flow<Boolean> {
+       return userRepository.showOnBoarding()
     }
 
 }

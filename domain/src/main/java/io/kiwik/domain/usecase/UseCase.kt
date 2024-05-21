@@ -10,6 +10,10 @@ interface UseCase {
         suspend fun execute(params: T)
     }
 
+    interface WithResult<T> {
+        suspend fun execute(): T
+    }
+
     interface Simple {
         suspend fun execute()
     }

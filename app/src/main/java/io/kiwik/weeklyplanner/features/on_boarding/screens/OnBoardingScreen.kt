@@ -1,4 +1,4 @@
-package io.kiwik.weeklyplanner.features.onBoarding.screens
+package io.kiwik.weeklyplanner.features.on_boarding.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button

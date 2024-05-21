@@ -17,10 +17,7 @@ val localHomeNavController = compositionLocalOf<NavController> { error("HomeNavc
 fun HomeNavigator() {
     val navController = rememberNavController()
     CompositionLocalProvider(localHomeNavController provides navController) {
-        NavHost(navController = navController, startDestination = HomeRoute.TaskListScreen.route,
-
-
-            ) {
+        NavHost(navController = navController, startDestination = HomeRoute.TaskListScreen.route,) {
             composable(HomeRoute.TaskListScreen.route) {
                 HomeScreen()
             }
