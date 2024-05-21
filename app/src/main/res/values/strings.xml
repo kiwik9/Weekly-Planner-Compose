@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Weekly Planner</string>
+    <string name="on_boarding_description">Welcome to Weekly Planner! Plan your week, set your goals, and achieve success. Let’s get started!</string>
 </resources>
