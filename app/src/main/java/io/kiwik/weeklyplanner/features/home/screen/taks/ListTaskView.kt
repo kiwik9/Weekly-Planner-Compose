@@ -1,9 +1,11 @@
 package io.kiwik.weeklyplanner.features.home.screen.taks
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import io.kiwik.domain.model.Task
 import io.kiwik.ui.components.AddTaskItem
 import io.kiwik.ui.components.TaskItem
@@ -16,7 +18,8 @@ fun ListTaskView(
     onAddNewTask: () -> Unit
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = tasks) { item ->
             TaskItem(

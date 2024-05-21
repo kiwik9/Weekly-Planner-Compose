@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +36,7 @@ fun HomeScreen(
         state = homeViewController.homeState,
         onEvents = homeViewController::onEvent,
         navigateTo = { navigate, type ->
-            navController.navigate(navigate.route)
+            navController.navigate(navigate.route + "?type=${type.ordinal}")
         }
     )
 }
@@ -45,12 +47,12 @@ fun HomeScreenContent(
     onEvents: (HomeScreenEvents) -> Unit,
     navigateTo: (HomeRoute, TaskType) -> Unit
 ) {
-    var selectedTab by remember { mutableStateOf(0) }
+    var selectedTab by rememberSaveable { mutableIntStateOf(0) }
     Column {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 24.dp),
+                .padding(top = 18.dp, bottom = 18.dp),
             text = "Planner",
             style = TextAppStyles.TitleLarge.style,
             textAlign = TextAlign.Center

@@ -2,9 +2,13 @@ package io.kiwik.weeklyplanner.features.home.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.kiwik.domain.model.Task
 import io.kiwik.domain.model.TaskType
@@ -21,11 +25,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val savedSateHandle: SavedStateHandle,
     private val updateTaskUC: UpdateTaskUseCase,
     private val getTaskUC: GetTaskUseCase
 ) : ViewModel() {
 
-    var homeState by mutableStateOf(HomeScreenState())
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var homeState by savedSateHandle.saveable {
+        mutableStateOf(HomeScreenState())
+    }
         private set
 
     init {
@@ -44,7 +53,6 @@ class HomeViewModel @Inject constructor(
         homeState = homeState.copy(
             taskType = taskType
         )
-
     }
 
     private fun getTasks() {

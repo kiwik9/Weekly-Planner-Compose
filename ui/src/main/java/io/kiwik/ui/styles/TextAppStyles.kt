@@ -17,7 +17,27 @@ sealed class TextAppStyles(
                 resId = R.font.poppins_medium,
                 weight = FontWeight.Bold
             ).toFontFamily(),
-            fontSize = 28.sp
+            fontSize = 26.sp
+        )
+    )
+
+    data object TitleMedium : TextAppStyles(
+        style = TextStyle(
+            fontFamily = Font(
+                resId = R.font.poppins_medium,
+                weight = FontWeight.Bold
+            ).toFontFamily(),
+            fontSize = 20.sp
+        )
+    )
+
+    data object TitleInput : TextAppStyles(
+        style = TextStyle(
+            fontFamily = Font(
+                resId = R.font.poppins_medium,
+                weight = FontWeight.Bold
+            ).toFontFamily(),
+            fontSize = 14.sp
         )
     )
 
