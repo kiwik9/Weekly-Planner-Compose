@@ -108,13 +108,13 @@ private fun TaskItemPreview() {
     var finished by remember {
         mutableStateOf(false)
     }
+
     TaskItem(
         title = "Task",
         description = "Descripcion",
         isRepetitiveTask = repetitive,
         isFinishedTask = finished,
         onRepetitiveChange = { repetitive = it },
-        onFinishedChange = { finished = it },
-
-        )
+        onFinishedChange = { finished = it }
+    )
 }
