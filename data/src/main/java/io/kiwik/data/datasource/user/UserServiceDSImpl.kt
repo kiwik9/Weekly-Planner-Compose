@@ -11,14 +11,14 @@ class UserServiceDSImpl @Inject constructor(
     val userDataStore: UserDataStore
 ) : UserServiceDS {
     override suspend fun showOnBoarding(): Flow<Boolean> {
-        return userDataStore.datastore.data.map {
-            it[booleanPreferencesKey(UserDataStore.showOnBoardingKey)] ?: false
+        return userDataStore.dataStore.data.map {
+            it[booleanPreferencesKey(UserDataStore.SHOW_ONBOARDING_KEY)] ?: false
         }
     }
 
     override suspend fun saveOnBoarding(show: Boolean) {
-        userDataStore.datastore.edit {
-            it[booleanPreferencesKey(UserDataStore.showOnBoardingKey)] = show
+        userDataStore.dataStore.edit {
+            it[booleanPreferencesKey(UserDataStore.SHOW_ONBOARDING_KEY)] = show
         }
     }
 }

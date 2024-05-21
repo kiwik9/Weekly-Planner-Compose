@@ -11,12 +11,9 @@ class UserDataStore @Inject constructor(
     @ApplicationContext val context: Context
 ) {
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = datastoreName)
-
-    val datastore = context.dataStore
+    val dataStore = DataStoreManager.getInstance(context)
 
     companion object {
-        private val datastoreName = "user_data"
-        val showOnBoardingKey = "show_onboarding_key"
+        const val SHOW_ONBOARDING_KEY = "show_onboarding_key"
     }
 }
