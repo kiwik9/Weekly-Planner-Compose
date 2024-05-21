@@ -16,7 +16,6 @@ import io.kiwik.weeklyplanner.features.home.screen.states.HomeScreenEvents
 import io.kiwik.weeklyplanner.features.home.screen.states.HomeScreenState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 
@@ -26,25 +25,33 @@ class HomeViewModel @Inject constructor(
     private val getTaskUC: GetTaskUseCase
 ) : ViewModel() {
 
-    init {
-        getTasks(TaskType.DAILY)
-    }
-
     var homeState by mutableStateOf(HomeScreenState())
         private set
+
+    init {
+        getTasks()
+    }
 
     fun onEvent(event: HomeScreenEvents) {
         when (event) {
             is HomeScreenEvents.UpdateTask -> updateTask(event.task)
-            is HomeScreenEvents.GetTasks -> getTasks(event.type)
+            is HomeScreenEvents.GetTasks -> getTasks()
+            is HomeScreenEvents.UpdateTabSelected -> updateTaskType(event.type)
         }
     }
 
-    private fun getTasks(type: TaskType) {
+    private fun updateTaskType(taskType: TaskType) {
+        homeState = homeState.copy(
+            taskType = taskType
+        )
+
+    }
+
+    private fun getTasks() {
         viewModelScope.launch {
             getTaskUC.execute(
                 GetTaskParams(
-                    type = type
+                    type = homeState.taskType
                 )
             ).collectLatest {
                 homeState = homeState.copy(tasks = it)

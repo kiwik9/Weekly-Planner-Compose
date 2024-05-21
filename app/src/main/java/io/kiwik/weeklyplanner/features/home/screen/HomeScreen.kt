@@ -18,6 +18,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import io.kiwik.domain.model.TaskType
 import io.kiwik.ui.components.TabList
 import io.kiwik.ui.styles.TextAppStyles
+import io.kiwik.weeklyplanner.features.home.navigation.HomeRoute
+import io.kiwik.weeklyplanner.features.home.navigation.localHomeNavController
 import io.kiwik.weeklyplanner.features.home.viewmodel.HomeViewModel
 import io.kiwik.weeklyplanner.features.home.screen.states.HomeScreenEvents
 import io.kiwik.weeklyplanner.features.home.screen.states.HomeScreenState
@@ -27,16 +29,21 @@ import io.kiwik.weeklyplanner.features.home.screen.taks.ListTaskView
 fun HomeScreen(
     homeViewController: HomeViewModel = hiltViewModel()
 ) {
+    val navController = localHomeNavController.current
     HomeScreenContent(
-        homeViewController.homeState,
-        onEvents = homeViewController::onEvent
+        state = homeViewController.homeState,
+        onEvents = homeViewController::onEvent,
+        navigateTo = { navigate, type ->
+            navController.navigate(navigate.route)
+        }
     )
 }
 
 @Composable
 fun HomeScreenContent(
     state: HomeScreenState,
-    onEvents: (HomeScreenEvents) -> Unit
+    onEvents: (HomeScreenEvents) -> Unit,
+    navigateTo: (HomeRoute, TaskType) -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     Column {
@@ -59,7 +66,8 @@ fun HomeScreenContent(
                     0 -> TaskType.DAILY
                     else -> TaskType.WEEKLY
                 }
-                onEvents(HomeScreenEvents.GetTasks(type))
+                onEvents(HomeScreenEvents.UpdateTabSelected(type))
+                onEvents(HomeScreenEvents.GetTasks)
             }
         )
 
@@ -72,7 +80,9 @@ fun HomeScreenContent(
             onChangeTask = {
                 onEvents(HomeScreenEvents.UpdateTask(it))
             },
-            onAddNewTask = { }
+            onAddNewTask = {
+                navigateTo(HomeRoute.NewTaskScreen, state.taskType)
+            }
         )
     }
 }
@@ -82,6 +92,7 @@ fun HomeScreenContent(
 fun HomeScreenPreview() {
     HomeScreenContent(
         state = HomeScreenState(),
-        onEvents = {}
+        onEvents = {},
+        navigateTo = { _, _ -> }
     )
 }
