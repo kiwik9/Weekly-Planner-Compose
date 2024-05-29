@@ -1,5 +1,6 @@
 package io.kiwik.weeklyplanner.features.home.screen.taks
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,6 +11,7 @@ import io.kiwik.domain.model.Task
 import io.kiwik.ui.components.AddTaskItem
 import io.kiwik.ui.components.TaskItem
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ListTaskView(
     modifier: Modifier,
@@ -23,6 +25,7 @@ fun ListTaskView(
     ) {
         items(items = tasks) { item ->
             TaskItem(
+                modifier = Modifier.animateItemPlacement(),
                 title = item.title,
                 description = item.description,
                 isRepetitiveTask = false,
