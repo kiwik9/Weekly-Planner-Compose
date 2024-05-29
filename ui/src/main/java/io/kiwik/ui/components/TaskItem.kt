@@ -31,6 +31,7 @@ import io.kiwik.ui.styles.TextAppStyles
 
 @Composable
 fun TaskItem(
+    modifier: Modifier = Modifier,
     title: String,
     description: String,
     isRepetitiveTask: Boolean,
@@ -50,6 +51,7 @@ fun TaskItem(
 
     Card(
         modifier = Modifier
+            .then(modifier)
             .fillMaxWidth()
             .height(55.dp),
         colors = CardDefaults.cardColors(
