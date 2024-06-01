@@ -24,12 +24,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.kiwik.ui.styles.TextAppStyles
 
 @Composable
 fun TaskItem(
+    modifier: Modifier,
     title: String,
     description: String,
     isRepetitiveTask: Boolean,
@@ -50,11 +53,12 @@ fun TaskItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(55.dp),
+            .height(55.dp)
+            .then(modifier),
         colors = CardDefaults.cardColors(
             containerColor = Color.Black
         ),
-        shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             modifier = Modifier.weight(1f),
@@ -65,6 +69,7 @@ fun TaskItem(
                 modifier = Modifier.wrapContentHeight(Alignment.CenterVertically)
             ) {
                 Icon(
+                    modifier = Modifier.testTag("RepetitiveIcon"),
                     imageVector = Icons.Rounded.Repeat,
                     contentDescription = "Add",
                     tint = repetitiveChangeAnimation
@@ -75,8 +80,19 @@ fun TaskItem(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = title, color = Color.White)
-                Text(text = description, color = Color.White, overflow = TextOverflow.Ellipsis)
+                Text(
+                    modifier = Modifier.testTag("Title"),
+                    text = title,
+                    color = Color.White,
+                    style = TextAppStyles.TitleTask.style
+                )
+                Text(
+                    modifier = Modifier.testTag("Description"),
+                    text = description,
+                    color = Color.White,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextAppStyles.TitleTask.style
+                )
             }
 
             IconButton(
@@ -84,8 +100,9 @@ fun TaskItem(
                 modifier = Modifier.wrapContentHeight(Alignment.CenterVertically)
             ) {
                 Icon(
+                    modifier = Modifier.testTag("CheckedIcon"),
                     imageVector = Icons.Rounded.Check,
-                    contentDescription = "Add",
+                    contentDescription = finishedChangeAnimation.toString(),
                     tint = finishedChangeAnimation
                 )
             }
@@ -102,13 +119,14 @@ private fun TaskItemPreview() {
     var finished by remember {
         mutableStateOf(false)
     }
+
     TaskItem(
+        modifier = Modifier,
         title = "Task",
         description = "Descripcion",
         isRepetitiveTask = repetitive,
         isFinishedTask = finished,
         onRepetitiveChange = { repetitive = it },
-        onFinishedChange = { finished = it },
-
-        )
+        onFinishedChange = { finished = it }
+    )
 }

@@ -15,15 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.kiwik.ui.styles.TextAppStyles
 
 @Composable
 fun TabList(
+    modifier: Modifier = Modifier,
     listOfTabs: List<String>,
     selectedTab: Int,
     onSelectedTab: (Int) -> Unit
 ) {
-
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         TabRow(selectedTabIndex = selectedTab,
             indicator = {
                 if (selectedTab < it.size) {
@@ -39,14 +42,15 @@ fun TabList(
                 Tab(
                     selected = selectedTab == index,
                     onClick = { onSelectedTab(index) },
-                    text = { Text(text = value) },
+                    text = {
+                        Text(text = value, style = TextAppStyles.TitleTab.style)
+                    },
                     selectedContentColor = Color.Black,
                     unselectedContentColor = Color.Gray
                 )
             }
         }
     }
-
 }
 
 @Composable
@@ -56,6 +60,7 @@ fun TabListPreview() {
     var selectedTab by remember { mutableStateOf(0) }
 
     TabList(
+        modifier = Modifier,
         listOfTabs = listOf("Daily", "Weekly"),
         selectedTab = selectedTab,
         onSelectedTab = { selectedTab = it }

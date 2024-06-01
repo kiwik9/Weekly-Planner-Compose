@@ -22,3 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Weekly Planner"
 include(":app")
 include(":ui")
+include(":data")
+include(":domain")

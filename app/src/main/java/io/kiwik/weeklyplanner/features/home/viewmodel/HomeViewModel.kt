@@ -1,35 +1,74 @@
 package io.kiwik.weeklyplanner.features.home.viewmodel
 
-import androidx.compose.runtime.getValue
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
+import androidx.lifecycle.viewmodel.compose.saveable
+import dagger.hilt.android.lifecycle.HiltViewModel
+import io.kiwik.domain.model.Task
+import io.kiwik.domain.model.TaskType
+import io.kiwik.domain.usecase.task.get_task.GetTaskUseCase
+import io.kiwik.domain.usecase.task.get_task.params.GetTaskParams
+import io.kiwik.domain.usecase.task.update_task.UpdateTaskUseCase
+import io.kiwik.domain.usecase.task.update_task.params.UpdateTaskParams
 import io.kiwik.weeklyplanner.features.home.screen.states.HomeScreenEvents
 import io.kiwik.weeklyplanner.features.home.screen.states.HomeScreenState
-import java.util.UUID
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class HomeViewModel @Inject constructor() : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val savedSateHandle: SavedStateHandle,
+    private val updateTaskUC: UpdateTaskUseCase,
+    private val getTaskUC: GetTaskUseCase
+) : ViewModel() {
 
-    var homeState by mutableStateOf(HomeScreenState())
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var homeState by savedSateHandle.saveable {
+        mutableStateOf(HomeScreenState())
+    }
         private set
+
+    init {
+        getTasks()
+    }
 
     fun onEvent(event: HomeScreenEvents) {
         when (event) {
-            is HomeScreenEvents.SendMyNewText -> sendMyNewText(event.myText)
-            HomeScreenEvents.ShowMyAnotherValue -> sendAnotherValue()
+            is HomeScreenEvents.UpdateTask -> updateTask(event.task)
+            is HomeScreenEvents.GetTasks -> getTasks()
+            is HomeScreenEvents.UpdateTabSelected -> updateTaskType(event.type)
         }
     }
 
-    private fun sendMyNewText(text: String) {
-        homeState = homeState.copy(myText = text)
+    private fun updateTaskType(taskType: TaskType) {
+        homeState = homeState.copy(
+            taskType = taskType
+        )
     }
 
-    private fun sendAnotherValue() {
-        homeState = homeState.copy(myAnotherValue = UUID.randomUUID().toString())
-
+    private fun getTasks() {
+        viewModelScope.launch {
+            getTaskUC.execute(
+                GetTaskParams(
+                    type = homeState.taskType
+                )
+            ).collectLatest {
+                homeState = homeState.copy(tasks = it)
+            }
+        }
     }
 
+    private fun updateTask(task: Task) {
+        viewModelScope.launch {
+            updateTaskUC.execute(UpdateTaskParams(task))
+        }
+    }
 
 }
